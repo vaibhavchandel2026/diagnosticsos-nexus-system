@@ -1,0 +1,132 @@
+{
+  "name": "diagnosticsos-nexus-system",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/dev-server.mjs",
+    "dev": "node scripts/dev-server.mjs",
+    "api": "node backend/server.mjs",
+    "start:host": "node backend/server.mjs",
+    "agent": "powershell -ExecutionPolicy Bypass -File scripts/start-agent.ps1",
+    "build": "vite build",
+    "preview": "vite preview",
+    "desktop": "electron .",
+    "dist": "npm run build && electron-builder --win nsis",
+    "dist:portable": "npm run build && electron-builder --win portable",
+    "setup:windows": "powershell -ExecutionPolicy Bypass -File scripts/setup-windows-deps.ps1"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^5.4.19",
+    "electron": "^32.2.1",
+    "electron-builder": "^24.13.3"
+  },
+  "main": "electron/main.cjs",
+  "build": {
+    "appId": "com.vidarbhaphonefix.iphonediagnosticsuite",
+    "productName": "iPhone Diagnostic Suite",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend",
+        "to": "backend"
+      },
+      {
+        "from": "scripts",
+        "to": "scripts",
+        "filter": [
+          "**/*",
+          "!**/__pycache__/**"
+        ]
+      },
+      {
+        "from": "tools/platform-tools",
+        "to": "tools/platform-tools"
+      },
+      {
+        "from": "dist",
+        "to": "dist"
+      },
+      {
+        "from": "build/eula.txt",
+        "to": "build/eula.txt"
+      },
+      {
+        "from": "build/icon.ico",
+        "to": "build/icon.ico"
+      },
+      {
+        "from": "build/icon.png",
+        "to": "build/icon.png"
+      },
+      {
+        "from": "build/installerSidebar.bmp",
+        "to": "build/installerSidebar.bmp"
+      },
+      {
+        "from": "build/installerHeader.bmp",
+        "to": "build/installerHeader.bmp"
+      },
+      {
+        "from": "build/installerIcon.ico",
+        "to": "build/installerIcon.ico"
+      },
+      {
+        "from": "build/uninstallerIcon.ico",
+        "to": "build/uninstallerIcon.ico"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "iPhone-Diagnostic-Suite-${version}-${arch}.${ext}",
+      "signAndEditExecutable": false,
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "license": "build/eula.txt",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/installerSidebar.bmp",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerIcon": "build/installerIcon.ico",
+      "uninstallerIcon": "build/uninstallerIcon.ico"
+    },
+    "icon": "build/icon.ico"
+  },
+  "description": "Windows desktop diagnostics suite for iPhone device reads, panic parsing, and repair intelligence.",
+  "author": "Vidarbha Phonefix"
+}
+
+
+
+

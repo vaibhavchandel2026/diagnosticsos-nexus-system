@@ -1,0 +1,26 @@
+node_modules/
+dist/
+release/
+artifacts/
+.cache/
+*.log
+*.err.log
+*.out.log
+*.zip
+*.exe
+*.asar
+*.tmp
+*.temp
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+artifacts/android-home/
+artifacts/panic-reports/
+mobile-server.err.log
+mobile-server.out.log
+New Text Document.txt
+
+__pycache__/
+*.pyc
+tools/tmp/

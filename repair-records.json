@@ -1,0 +1,1022 @@
+[
+  {
+    "id": "IPH001",
+    "stage": 1,
+    "title": "Battery Input Open",
+    "rail": "PP_BATT_VCC",
+    "voltage": "3.70-4.48V",
+    "diode_ref": 0.412,
+    "target_ic": "Battery FPC Connector",
+    "symptoms": "No current draw, dead phone, no USB response",
+    "repair_steps": [
+      "Confirm battery voltage is above 3.7V",
+      "Inspect battery connector for lifted or burnt pins",
+      "Measure PP_BATT_VCC in diode mode",
+      "Replace damaged connector or flex",
+      "Retest DC power supply boot pattern"
+    ]
+  },
+  {
+    "id": "IPH002",
+    "stage": 1,
+    "title": "VCC_MAIN Hard Short",
+    "rail": "PP_VCC_MAIN",
+    "voltage": "3.70-4.48V",
+    "diode_ref": 0.036,
+    "target_ic": "Main Power Line Capacitor Bank",
+    "symptoms": "Immediate high current draw, board heats instantly, no boot",
+    "repair_steps": [
+      "Inject 1V into PP_VCC_MAIN with current limit",
+      "Locate heat source with thermal camera or IPA",
+      "Remove shorted capacitor or failed IC",
+      "Verify resistance and diode mode recover",
+      "Retest normal boot sequence"
+    ]
+  },
+  {
+    "id": "IPH003",
+    "stage": 1,
+    "title": "Battery Sense Line Fault",
+    "rail": "PP_BATT_SWI",
+    "voltage": "Battery Dependent",
+    "diode_ref": 0.521,
+    "target_ic": "Battery Gas Gauge Path",
+    "symptoms": "Boot loop, incorrect battery percentage, unstable charging",
+    "repair_steps": [
+      "Inspect battery flex and connector seating",
+      "Check battery sense line continuity",
+      "Compare diode reading with known-good board",
+      "Replace battery if line value is unstable",
+      "Repair damaged filter or trace"
+    ]
+  },
+  {
+    "id": "IPH004",
+    "stage": 1,
+    "title": "USB Input Path Fault",
+    "rail": "PP_VBUS_USB",
+    "voltage": "5-20V",
+    "diode_ref": 0.447,
+    "target_ic": "USB-C Port Input Protection",
+    "symptoms": "No charging, no current draw from charger, intermittent USB detection",
+    "repair_steps": [
+      "Test with known-good cable and charger",
+      "Inspect USB-C port for corrosion or bent pins",
+      "Measure VBUS path in diode mode",
+      "Replace damaged port or protection array",
+      "Verify stable input on reconnect"
+    ]
+  },
+  {
+    "id": "IPH005",
+    "stage": 2,
+    "title": "Power Key Trigger Missing",
+    "rail": "PMU_ONOFF_L",
+    "voltage": "1.8V",
+    "diode_ref": 0.684,
+    "target_ic": "PMIC Trigger Circuit",
+    "symptoms": "No reaction to power key, only trickle current on charger",
+    "repair_steps": [
+      "Check power button line while pressing key",
+      "Verify continuity to PMIC trigger pin",
+      "Measure diode mode on PMU_ONOFF_L",
+      "Repair open trace or connector issue",
+      "Replace damaged power button flex if needed"
+    ]
+  },
+  {
+    "id": "IPH006",
+    "stage": 2,
+    "title": "1V8 Always Rail Missing",
+    "rail": "PP1V8_ALWAYS",
+    "voltage": "1.8V",
+    "diode_ref": 0.612,
+    "target_ic": "PMIC",
+    "symptoms": "No boot sequence, no low-power logic initialization",
+    "repair_steps": [
+      "Check rail for short to ground",
+      "Verify PMIC input and enable condition",
+      "Inspect nearby capacitors and coil",
+      "Replace shorted capacitor or PMIC if required",
+      "Confirm stable 1.8V output"
+    ]
+  },
+  {
+    "id": "IPH007",
+    "stage": 2,
+    "title": "3V0 Always Rail Missing",
+    "rail": "PP3V0_ALWAYS",
+    "voltage": "3.0V",
+    "diode_ref": 0.556,
+    "target_ic": "PMIC",
+    "symptoms": "Dead board, no normal wake sequence, accessory detection failure",
+    "repair_steps": [
+      "Measure rail resistance and diode mode",
+      "Inspect PMIC output components",
+      "Check for shorted sensor or capacitor on line",
+      "Replace failed passive or PMIC output part",
+      "Verify stable 3.0V output"
+    ]
+  },
+  {
+    "id": "IPH008",
+    "stage": 2,
+    "title": "USB-C CC Negotiation Failure",
+    "rail": "USB_C_CC1_CC2",
+    "voltage": "0.4-1.6V",
+    "diode_ref": 0.623,
+    "target_ic": "USB-C PD Controller",
+    "symptoms": "Stays at 5V only, no fast charge, weak startup current pattern",
+    "repair_steps": [
+      "Measure CC1 and CC2 in diode mode",
+      "Inspect USB-C port center tongue and contacts",
+      "Check PD controller rails and data lines",
+      "Replace damaged PD controller or ESD array",
+      "Confirm correct charger negotiation"
+    ]
+  },
+  {
+    "id": "IPH009",
+    "stage": 3,
+    "title": "RTC Clock Missing",
+    "rail": "PMU_CLK32K",
+    "voltage": "32KHz",
+    "diode_ref": 0.701,
+    "target_ic": "RTC Clock Circuit",
+    "symptoms": "Delayed or unstable startup, repeated restart before deeper boot stages",
+    "repair_steps": [
+      "Inspect RTC crystal and surrounding passives",
+      "Check liquid damage around clock area",
+      "Compare diode reading with known-good board",
+      "Replace faulty crystal or capacitor",
+      "Retest boot progression"
+    ]
+  },
+  {
+    "id": "IPH010",
+    "stage": 3,
+    "title": "SoC Reset Line Stuck",
+    "rail": "SOC_RST_L",
+    "voltage": "1.8V",
+    "diode_ref": 0.648,
+    "target_ic": "Application Processor Reset Logic",
+    "symptoms": "Low pulsing current, no image, no USB enumeration",
+    "repair_steps": [
+      "Check reset line for short or leakage",
+      "Inspect SoC neighborhood for corrosion",
+      "Compare diode value with known-good board",
+      "Replace damaged pull-up or filter if needed",
+      "Retest boot current profile"
+    ]
+  },
+  {
+    "id": "IPH011",
+    "stage": 3,
+    "title": "NAND 1V8 Rail Instability",
+    "rail": "PP1V8_NAND",
+    "voltage": "1.8V",
+    "diode_ref": 0.473,
+    "target_ic": "NAND Power Rail",
+    "symptoms": "Early boot loop, restore errors, current ramp then drop",
+    "repair_steps": [
+      "Measure NAND rail in diode mode",
+      "Inspect rail capacitors and inductor",
+      "Check for heat near storage area",
+      "Replace shorted capacitor if found",
+      "Retest boot and restore"
+    ]
+  },
+  {
+    "id": "IPH012",
+    "stage": 4,
+    "title": "SDRAM 0V9 Rail Missing",
+    "rail": "PP0V9_SDRAM",
+    "voltage": "0.9V",
+    "diode_ref": 0.284,
+    "target_ic": "RAM Power Supply",
+    "symptoms": "Current rises briefly and resets, no logo, no vibration",
+    "repair_steps": [
+      "Measure SDRAM rail resistance and diode mode",
+      "Check PMIC buck output section",
+      "Inspect AP and RAM area for flex damage",
+      "Replace shorted cap or damaged inductor path",
+      "Verify sustained 0.9V during boot"
+    ]
+  },
+  {
+    "id": "IPH013",
+    "stage": 4,
+    "title": "CPU Core Rail Fault",
+    "rail": "PP1V1_CPU",
+    "voltage": "1.1V",
+    "diode_ref": 0.268,
+    "target_ic": "Application Processor Core Supply",
+    "symptoms": "Stuck at early current plateau, brief SoC heat, no boot",
+    "repair_steps": [
+      "Check for low resistance on CPU core rail",
+      "Inspect coil and caps on output side",
+      "Compare diode reading with known-good board",
+      "Remove shorted external part if present",
+      "Escalate to AP rework only after rail path is verified"
+    ]
+  },
+  {
+    "id": "IPH014",
+    "stage": 4,
+    "title": "SYS_ALIVE Assertion Failure",
+    "rail": "SYS_ALIVE",
+    "voltage": "1.8V",
+    "diode_ref": 0.594,
+    "target_ic": "AP PMIC Handshake",
+    "symptoms": "Modern boards start then collapse before logo, repeated low-current cycling",
+    "repair_steps": [
+      "Check SYS_ALIVE continuity between PMIC and SoC",
+      "Measure diode value against same-model donor board",
+      "Inspect handshake pull-up network",
+      "Repair damaged resistor array or filter",
+      "Retest for stable boot progression"
+    ]
+  },
+  {
+    "id": "IPH015",
+    "stage": 4,
+    "title": "AOP_NMI_POWER Fault",
+    "rail": "AOP_NMI_POWER",
+    "voltage": "1.8V",
+    "diode_ref": 0.611,
+    "target_ic": "Always-On Processor Domain",
+    "symptoms": "Random restart, no full boot, wake and sensor anomalies on newer models",
+    "repair_steps": [
+      "Check line for leakage or partial short",
+      "Inspect always-on domain passives",
+      "Compare diode reading with known-good board",
+      "Repair damaged trace, filter, or resistor network",
+      "Retest stable progression after pre-boot handshake"
+    ]
+  },
+  {
+    "id": "IPH016",
+    "stage": 5,
+    "title": "NAND Data Line Open",
+    "rail": "NAND_IO",
+    "voltage": "1.8V",
+    "diode_ref": 0.529,
+    "target_ic": "NAND",
+    "symptoms": "Mid-boot loop, restore errors, panic after storage initialization",
+    "repair_steps": [
+      "Inspect NAND solder joints under microscope",
+      "Check series resistors and filters on data lines",
+      "Measure diode values on suspect nets",
+      "Reball NAND if continuity is lost",
+      "Retest restore and normal boot"
+    ]
+  },
+  {
+    "id": "IPH017",
+    "stage": 5,
+    "title": "Boot Read Rail Failure",
+    "rail": "PP1V2_S2",
+    "voltage": "1.2V",
+    "diode_ref": 0.338,
+    "target_ic": "Secondary SoC Rail",
+    "symptoms": "Current reaches threshold then resets, no logo, DFU may still work",
+    "repair_steps": [
+      "Verify PP1V2_S2 is present and stable",
+      "Check buck output coil and caps",
+      "Inspect rail filter network",
+      "Replace unstable passives",
+      "Retest restore and boot"
+    ]
+  },
+  {
+    "id": "IPH018",
+    "stage": 5,
+    "title": "Sensor EEPROM Rail Fault",
+    "rail": "PP1V8_IO",
+    "voltage": "1.8V",
+    "diode_ref": 0.486,
+    "target_ic": "Calibration EEPROM Path",
+    "symptoms": "Inconsistent boot, sensor failures, calibration read issues",
+    "repair_steps": [
+      "Measure PP1V8_IO for short or sag",
+      "Inspect EEPROM area for corrosion",
+      "Check data line pull-ups",
+      "Replace shorted EEPROM or damaged filter",
+      "Verify communication after repair"
+    ]
+  },
+  {
+    "id": "IPH019",
+    "stage": 5,
+    "title": "Baseband Pre-Init Rail Fault",
+    "rail": "PP1V0_BB",
+    "voltage": "1.0V",
+    "diode_ref": 0.312,
+    "target_ic": "Baseband PMU",
+    "symptoms": "No modem bring-up, restore stalls, abnormal stage 5 current pattern",
+    "repair_steps": [
+      "Check PP1V0_BB resistance and diode value",
+      "Inspect baseband PMU output stage",
+      "Replace shorted cap on BB rail",
+      "Reflow or reball BB PMU if necessary",
+      "Retest modem detection"
+    ]
+  },
+  {
+    "id": "IPH020",
+    "stage": 6,
+    "title": "Display AVDDH Rail Fault",
+    "rail": "PP5V7_LCM_AVDDH",
+    "voltage": "5.7V",
+    "diode_ref": 0.462,
+    "target_ic": "Display PMIC",
+    "symptoms": "Phone boots with sound or vibration but no image",
+    "repair_steps": [
+      "Confirm board boots using sound or USB detection",
+      "Measure display boost rail live voltage and diode mode",
+      "Inspect display connector for damage",
+      "Replace failed display power IC or cap",
+      "Retest with known-good screen"
+    ]
+  },
+  {
+    "id": "IPH021",
+    "stage": 6,
+    "title": "Backlight Rail Open",
+    "rail": "PP_BL_ANODE",
+    "voltage": "15-25V",
+    "diode_ref": 0.728,
+    "target_ic": "Backlight Driver",
+    "symptoms": "Faint image only, no backlight, normal boot behavior otherwise",
+    "repair_steps": [
+      "Check image with flashlight",
+      "Measure backlight output and boost coil continuity",
+      "Inspect display connector anode path",
+      "Replace backlight IC, diode, or coil",
+      "Retest full display brightness"
+    ]
+  },
+  {
+    "id": "IPH022",
+    "stage": 6,
+    "title": "MIPI Clock Pair Fault",
+    "rail": "MIPI_DSI_CLK",
+    "voltage": "1.2V",
+    "diode_ref": 0.418,
+    "target_ic": "CPU Display Interface",
+    "symptoms": "No image, intermittent lines, board fully boots",
+    "repair_steps": [
+      "Inspect MIPI filters and connector pins",
+      "Measure pair symmetry in diode mode",
+      "Check for dropped pads or cracked filter array",
+      "Replace damaged MIPI filter",
+      "Retest with known-good display"
+    ]
+  },
+  {
+    "id": "IPH023",
+    "stage": 6,
+    "title": "Touch Rail Missing",
+    "rail": "PP3V3_TOUCH",
+    "voltage": "3.3V",
+    "diode_ref": 0.547,
+    "target_ic": "Touch Controller",
+    "symptoms": "Display works but touch is dead or ghosting",
+    "repair_steps": [
+      "Check touch rail diode value and live voltage",
+      "Inspect touch connector and filter network",
+      "Swap known-good display to isolate panel fault",
+      "Replace missing rail source or damaged filter",
+      "Verify full touch function"
+    ]
+  },
+  {
+    "id": "IPH024",
+    "stage": 7,
+    "title": "Baseband Handshake Fault",
+    "rail": "BB_TO_AP_WAKE",
+    "voltage": "1.8V",
+    "diode_ref": 0.602,
+    "target_ic": "Baseband AP Interconnect",
+    "symptoms": "Logo hang, no service after boot, restore modem failures",
+    "repair_steps": [
+      "Measure handshake line in diode mode",
+      "Inspect resistor network between BB and AP",
+      "Check for corrosion under modem shield",
+      "Replace damaged filter or resistor pack",
+      "Retest boot and network state"
+    ]
+  },
+  {
+    "id": "IPH025",
+    "stage": 7,
+    "title": "RF Rail Short",
+    "rail": "PP1V8_RF",
+    "voltage": "1.8V",
+    "diode_ref": 0.231,
+    "target_ic": "RF Transceiver",
+    "symptoms": "No signal, modem panic, heat near RF section during boot",
+    "repair_steps": [
+      "Check PP1V8_RF for low resistance",
+      "Inject low voltage and locate heating part",
+      "Remove shorted capacitor if present",
+      "Replace failed RF IC if short remains internal",
+      "Retest network functionality"
+    ]
+  },
+  {
+    "id": "IPH026",
+    "stage": 7,
+    "title": "eSIM Rail Fault",
+    "rail": "PP1V2_ESIM",
+    "voltage": "1.2V",
+    "diode_ref": 0.366,
+    "target_ic": "eSIM Secure Element",
+    "symptoms": "Activation issues, no provisioning, modem-related restart",
+    "repair_steps": [
+      "Inspect secure element power rail",
+      "Check diode mode on power and data lines",
+      "Inspect for corrosion around eSIM area",
+      "Replace shorted passive or damaged secure element",
+      "Retest activation and carrier profile loading"
+    ]
+  },
+  {
+    "id": "IPH027",
+    "stage": 7,
+    "title": "Modem Clock Request Fault",
+    "rail": "BB_CLK_REQ",
+    "voltage": "1.8V",
+    "diode_ref": 0.644,
+    "target_ic": "Baseband Clock Path",
+    "symptoms": "No service, panic logs reference modem bring-up, delayed boot",
+    "repair_steps": [
+      "Check clock request line for open or leakage",
+      "Inspect nearby clock buffer passives",
+      "Compare diode reading with same-model donor",
+      "Repair damaged resistor or filter path",
+      "Retest baseband availability"
+    ]
+  },
+  {
+    "id": "IPH028",
+    "stage": 8,
+    "title": "Wi-Fi Rail Fault",
+    "rail": "PP1V8_WLAN",
+    "voltage": "1.8V",
+    "diode_ref": 0.348,
+    "target_ic": "Wi-Fi Bluetooth Combo IC",
+    "symptoms": "Wi-Fi grayed out, long boot, wireless panic",
+    "repair_steps": [
+      "Check Wi-Fi rail for short or low diode value",
+      "Inspect wireless area for corrosion or impact",
+      "Replace shorted capacitor if found",
+      "Rework combo IC if rail remains loaded",
+      "Retest Wi-Fi and Bluetooth"
+    ]
+  },
+  {
+    "id": "IPH029",
+    "stage": 8,
+    "title": "NFC Rail Fault",
+    "rail": "PP3V0_NFC",
+    "voltage": "3.0V",
+    "diode_ref": 0.524,
+    "target_ic": "NFC Controller",
+    "symptoms": "Tap to pay unavailable, slow boot, accessory authentication issues",
+    "repair_steps": [
+      "Measure NFC rail and inspect filter network",
+      "Check board-to-board contact path if applicable",
+      "Compare diode reading with known-good board",
+      "Replace damaged NFC controller or passive",
+      "Retest payment and tag detection"
+    ]
+  },
+  {
+    "id": "IPH030",
+    "stage": 8,
+    "title": "UWB Rail Fault",
+    "rail": "PP1V8_UWB",
+    "voltage": "1.8V",
+    "diode_ref": 0.497,
+    "target_ic": "UWB IC",
+    "symptoms": "Precision finding unavailable, nearby device features unstable",
+    "repair_steps": [
+      "Inspect UWB area for liquid damage",
+      "Measure PP1V8_UWB in diode mode",
+      "Check support lines around UWB block",
+      "Replace failed capacitor or UWB IC",
+      "Retest proximity features"
+    ]
+  },
+  {
+    "id": "IPH031",
+    "stage": 8,
+    "title": "USB-C PD 3.1 Negotiation Fault",
+    "rail": "PD_SYS_SNS",
+    "voltage": "5-28V Negotiation",
+    "diode_ref": 0.581,
+    "target_ic": "USB-C PD 3.1 Controller",
+    "symptoms": "Slow charging, unstable dock behavior, no proper high-voltage contract",
+    "repair_steps": [
+      "Use PD analyzer to confirm contract behavior",
+      "Measure PD sense and CC path diode values",
+      "Inspect port, ESD array, and controller rails",
+      "Replace failing PD controller or protection array",
+      "Verify stable PD 3.1 negotiation"
+    ]
+  },
+  {
+    "id": "IPH032",
+    "stage": 9,
+    "title": "Audio Codec Rail Fault",
+    "rail": "PP1V8_CODEC",
+    "voltage": "1.8V",
+    "diode_ref": 0.476,
+    "target_ic": "Audio Codec",
+    "symptoms": "No audio, voice memo failure, audio subsystem crash",
+    "repair_steps": [
+      "Measure codec rail voltage and diode mode",
+      "Inspect codec area for bend damage",
+      "Check clock and reset support lines",
+      "Reflow or replace codec if power is normal",
+      "Retest recording and playback"
+    ]
+  },
+  {
+    "id": "IPH033",
+    "stage": 9,
+    "title": "Mic Bias Rail Short",
+    "rail": "PP2V8_MIC_BIAS",
+    "voltage": "2.8V",
+    "diode_ref": 0.442,
+    "target_ic": "Audio Front End",
+    "symptoms": "Microphone dead, Siri failure, audio init errors",
+    "repair_steps": [
+      "Check mic bias line for leakage to ground",
+      "Inspect connector-side filters and ESD parts",
+      "Replace shorted passive on bias rail",
+      "Test all microphone paths",
+      "Confirm audio panic is gone"
+    ]
+  },
+  {
+    "id": "IPH034",
+    "stage": 9,
+    "title": "Speaker Boost Fault",
+    "rail": "PP_SPKR_BOOST",
+    "voltage": "5.0-7.0V",
+    "diode_ref": 0.533,
+    "target_ic": "Audio Amplifier",
+    "symptoms": "No loudspeaker, distorted startup sounds, amplifier overheating",
+    "repair_steps": [
+      "Measure boost rail and inspect output caps",
+      "Check speaker lines for short to ground",
+      "Swap known-good speaker to isolate board fault",
+      "Replace audio amplifier if boost is missing",
+      "Retest speaker output"
+    ]
+  },
+  {
+    "id": "IPH035",
+    "stage": 9,
+    "title": "Bottom Mic Data Open",
+    "rail": "MIC1_DATA",
+    "voltage": "1.8V",
+    "diode_ref": 0.662,
+    "target_ic": "Bottom Microphone Interface",
+    "symptoms": "No voice input, intermittent accessory warnings due to flex damage",
+    "repair_steps": [
+      "Inspect charging flex connector and bottom mic path",
+      "Measure line in diode mode for open condition",
+      "Repair torn pad or replace connector",
+      "Test audio recording",
+      "Verify call microphone operation"
+    ]
+  },
+  {
+    "id": "IPH036",
+    "stage": 10,
+    "title": "TrueDepth Rail Fault",
+    "rail": "PP3V0_CAM_TRUEDEPTH",
+    "voltage": "3.0V",
+    "diode_ref": 0.548,
+    "target_ic": "TrueDepth Power Management",
+    "symptoms": "Face ID unavailable, front camera init delay, normal basic boot",
+    "repair_steps": [
+      "Measure TrueDepth rail and compare with known-good",
+      "Inspect front sensor flex and connector",
+      "Check for liquid damage in upper connector area",
+      "Repair missing rail source or passive fault",
+      "Retest camera and Face ID"
+    ]
+  },
+  {
+    "id": "IPH037",
+    "stage": 10,
+    "title": "Rear Camera AVDD Short",
+    "rail": "PP2V8_CAM_AVDD",
+    "voltage": "2.8V",
+    "diode_ref": 0.287,
+    "target_ic": "Rear Camera PMU",
+    "symptoms": "Camera crash, slow boot, no rear camera detection",
+    "repair_steps": [
+      "Disconnect camera modules and compare rail behavior",
+      "Check AVDD rail in diode mode",
+      "Determine module-side or board-side short",
+      "Replace shorted cap or camera power IC",
+      "Retest all rear cameras"
+    ]
+  },
+  {
+    "id": "IPH038",
+    "stage": 10,
+    "title": "Sensor Hub Rail Instability",
+    "rail": "PP1V8_SENSORS",
+    "voltage": "1.8V",
+    "diode_ref": 0.505,
+    "target_ic": "Sensor Hub",
+    "symptoms": "Auto-brightness, compass, or motion issues with delayed boot",
+    "repair_steps": [
+      "Measure PP1V8_SENSORS and inspect filters",
+      "Check for leakage from attached sensor IC",
+      "Replace shorted passive if rail is dragged down",
+      "Reball sensor hub only after rail is clean",
+      "Validate sensor readings"
+    ]
+  },
+  {
+    "id": "IPH039",
+    "stage": 10,
+    "title": "Proximity Interrupt Fault",
+    "rail": "ALS_PROX_INT",
+    "voltage": "1.8V",
+    "diode_ref": 0.671,
+    "target_ic": "Ambient Light Proximity Sensor",
+    "symptoms": "Screen stays dark on calls, odd wake behavior, sensor test fails",
+    "repair_steps": [
+      "Inspect upper sensor assembly flex and connector",
+      "Measure interrupt line in diode mode",
+      "Check pull-up resistor network",
+      "Repair open trace or replace connector",
+      "Retest proximity and ALS behavior"
+    ]
+  },
+  {
+    "id": "IPH040",
+    "stage": 11,
+    "title": "SEP Rail Fault",
+    "rail": "PP0V9_SEP",
+    "voltage": "0.9V",
+    "diode_ref": 0.301,
+    "target_ic": "Secure Enclave Domain",
+    "symptoms": "Passcode issues, activation trouble, unusual boot delay",
+    "repair_steps": [
+      "Measure SEP rail for stable 0.9V",
+      "Inspect related inductors and capacitors",
+      "Check for partial short near secure domain",
+      "Replace faulted passive",
+      "Retest secure functions"
+    ]
+  },
+  {
+    "id": "IPH041",
+    "stage": 11,
+    "title": "USB Authentication Fault",
+    "rail": "USB_AUTH_INT",
+    "voltage": "1.8V",
+    "diode_ref": 0.614,
+    "target_ic": "USB Accessory Authentication",
+    "symptoms": "Accessory errors, restore disconnects, unstable wired communication",
+    "repair_steps": [
+      "Test with known-good cable and host",
+      "Measure auth line and surrounding filters",
+      "Inspect port and protection arrays",
+      "Replace failed authentication path component",
+      "Verify stable data transfer"
+    ]
+  },
+  {
+    "id": "IPH042",
+    "stage": 11,
+    "title": "AOP Sensor Wake Fault",
+    "rail": "AOP_SENSE_WAKE",
+    "voltage": "1.8V",
+    "diode_ref": 0.589,
+    "target_ic": "Always-On Processor Sensor Wake Logic",
+    "symptoms": "Intermittent wake, delayed resume, sensor-triggered panic",
+    "repair_steps": [
+      "Measure AOP wake line in diode mode",
+      "Inspect resistor packs and sensor wake path",
+      "Check always-on rail stability first",
+      "Repair open or leaking component on line",
+      "Retest sleep-wake behavior"
+    ]
+  },
+  {
+    "id": "IPH043",
+    "stage": 11,
+    "title": "Thermal Rail Fault",
+    "rail": "PP1V8_THERM",
+    "voltage": "1.8V",
+    "diode_ref": 0.532,
+    "target_ic": "Thermal Monitoring Circuit",
+    "symptoms": "Kernel panic, slow boot, thermal service errors",
+    "repair_steps": [
+      "Check thermal rail and connected sensor lines",
+      "Inspect for missing or corroded parts",
+      "Compare diode values with donor board",
+      "Replace faulty interface or passive",
+      "Verify proper thermal reporting"
+    ]
+  },
+  {
+    "id": "IPH044",
+    "stage": 12,
+    "title": "NAND Clock Integrity Fault",
+    "rail": "NAND_CLK",
+    "voltage": "1.8V",
+    "diode_ref": 0.551,
+    "target_ic": "NAND",
+    "symptoms": "Restore error, logo hang, panic during filesystem mount",
+    "repair_steps": [
+      "Inspect NAND clock resistors and solder state",
+      "Measure diode mode and compare with same model",
+      "Reball NAND if solder fracture is confirmed",
+      "Repair broken pad or via if accessible",
+      "Retest restore and full boot"
+    ]
+  },
+  {
+    "id": "IPH045",
+    "stage": 12,
+    "title": "PMIC I2C Fault",
+    "rail": "I2C0_SMC",
+    "voltage": "1.8V",
+    "diode_ref": 0.673,
+    "target_ic": "PMIC System Management Bus",
+    "symptoms": "Boot freeze, panic on power management, erratic current pattern",
+    "repair_steps": [
+      "Check SDA and SCL lines for balanced diode values",
+      "Inspect pull-up resistor network",
+      "Remove shorted client IC if one line is held low",
+      "Repair leaking or open bus filter",
+      "Retest boot current sequence"
+    ]
+  },
+  {
+    "id": "IPH046",
+    "stage": 12,
+    "title": "Filesystem Rail Sag",
+    "rail": "PP1V2_NVM",
+    "voltage": "1.2V",
+    "diode_ref": 0.357,
+    "target_ic": "NVM Support Rail",
+    "symptoms": "Stuck on logo, restore completes but device will not finish boot",
+    "repair_steps": [
+      "Verify rail presence during late mount stage",
+      "Check for output cap ESR or rail droop",
+      "Inspect nearby support ICs",
+      "Replace unstable source part or capacitor",
+      "Retest after full power cycle"
+    ]
+  },
+  {
+    "id": "IPH047",
+    "stage": 12,
+    "title": "Secure Storage Data Path Fault",
+    "rail": "SEP_NAND_DATA",
+    "voltage": "1.8V",
+    "diode_ref": 0.563,
+    "target_ic": "SEP NAND Interface",
+    "symptoms": "Activation errors, logo stall, unstable secure storage access",
+    "repair_steps": [
+      "Inspect interface passives between SEP and storage domain",
+      "Measure line set in diode mode for symmetry",
+      "Repair damaged filter or series resistor",
+      "Rework affected IC only after passive path is verified",
+      "Retest activation and storage access"
+    ]
+  },
+  {
+    "id": "IPH048",
+    "stage": 13,
+    "title": "ISP Rail Fault",
+    "rail": "PP1V1_ISP",
+    "voltage": "1.1V",
+    "diode_ref": 0.329,
+    "target_ic": "Image Signal Processor",
+    "symptoms": "Black camera feed, media subsystem instability, boot complete otherwise",
+    "repair_steps": [
+      "Measure ISP rail and inspect local capacitors",
+      "Check for short from attached camera line",
+      "Disconnect modules one at a time to isolate",
+      "Replace shorted component or source IC",
+      "Retest all camera functions"
+    ]
+  },
+  {
+    "id": "IPH049",
+    "stage": 13,
+    "title": "LiDAR Rail Fault",
+    "rail": "PP3V0_LIDAR",
+    "voltage": "3.0V",
+    "diode_ref": 0.514,
+    "target_ic": "LiDAR Module Power",
+    "symptoms": "Depth features fail, camera crash, occasional boot lag on Pro models",
+    "repair_steps": [
+      "Inspect LiDAR connector and rail path",
+      "Measure diode mode on LiDAR rail",
+      "Replace shorted passive or protection part",
+      "Swap module if needed to isolate board side",
+      "Retest depth camera features"
+    ]
+  },
+  {
+    "id": "IPH050",
+    "stage": 13,
+    "title": "Camera MIPI Data Fault",
+    "rail": "CAM_MIPI_RX0",
+    "voltage": "1.2V",
+    "diode_ref": 0.434,
+    "target_ic": "Camera Interface ISP Path",
+    "symptoms": "Single camera fails, intermittent image, no major hardware panic",
+    "repair_steps": [
+      "Inspect MIPI filter array and connector pins",
+      "Check differential pair symmetry in diode mode",
+      "Replace damaged filter block",
+      "Repair pad damage from previous work if present",
+      "Retest affected camera stream"
+    ]
+  },
+  {
+    "id": "IPH051",
+    "stage": 14,
+    "title": "Wireless Charging Rail Fault",
+    "rail": "PP_WLC_RX",
+    "voltage": "5-12V",
+    "diode_ref": 0.467,
+    "target_ic": "Wireless Charging Receiver",
+    "symptoms": "MagSafe or wireless charging unavailable, accessory attach issues",
+    "repair_steps": [
+      "Measure receiver rail in diode mode",
+      "Inspect coil connector and magnet assembly contacts",
+      "Check receiver IC for heat during wireless power input",
+      "Replace damaged receiver IC or input filter",
+      "Retest wireless charging"
+    ]
+  },
+  {
+    "id": "IPH052",
+    "stage": 14,
+    "title": "UWB Handshake Fault",
+    "rail": "UWB_INT",
+    "voltage": "1.8V",
+    "diode_ref": 0.646,
+    "target_ic": "UWB Controller",
+    "symptoms": "Nearby accessory pairing fails, ecosystem features unstable",
+    "repair_steps": [
+      "Measure interrupt line and inspect pull-up path",
+      "Check UWB main rail health first",
+      "Repair open trace or cracked resistor",
+      "Rework UWB IC only if signal path is intact",
+      "Retest accessory discovery"
+    ]
+  },
+  {
+    "id": "IPH053",
+    "stage": 14,
+    "title": "USB-C Accessory Detect Fault",
+    "rail": "ACC_DET_USB_C",
+    "voltage": "1.8V",
+    "diode_ref": 0.607,
+    "target_ic": "USB-C Accessory Detection Logic",
+    "symptoms": "Accessories not recognized even though charging works",
+    "repair_steps": [
+      "Check accessory detect line and USB-C mux area",
+      "Inspect port contamination or wear",
+      "Measure diode mode on detect line and mux inputs",
+      "Replace damaged mux or ESD array",
+      "Retest multiple USB-C accessories"
+    ]
+  },
+  {
+    "id": "IPH054",
+    "stage": 14,
+    "title": "USB-C SBU Alt-Mode Fault",
+    "rail": "USB_ALT_SBU",
+    "voltage": "0.4-1.2V",
+    "diode_ref": 0.583,
+    "target_ic": "USB-C Alt-Mode Switch",
+    "symptoms": "Dock audio or alternate accessory modes fail intermittently",
+    "repair_steps": [
+      "Measure SBU lines in diode mode and compare symmetry",
+      "Inspect switch IC and filter area",
+      "Replace damaged switch or protection component",
+      "Confirm PD behavior is normal",
+      "Retest with supported dock hardware"
+    ]
+  },
+  {
+    "id": "IPH055",
+    "stage": 15,
+    "title": "Late UI Rail Instability",
+    "rail": "PP1V8_GPU",
+    "voltage": "1.8V",
+    "diode_ref": 0.391,
+    "target_ic": "Graphics Support Rail",
+    "symptoms": "Logo delay, slow UI load, display subsystem lag",
+    "repair_steps": [
+      "Verify rail stability during late boot",
+      "Inspect associated capacitors for leakage",
+      "Compare diode value with known-good board",
+      "Replace faulty passive on rail",
+      "Retest UI load behavior"
+    ]
+  },
+  {
+    "id": "IPH056",
+    "stage": 15,
+    "title": "Taptic Boost Fault",
+    "rail": "PP_VIB_BOOST",
+    "voltage": "5.0V",
+    "diode_ref": 0.503,
+    "target_ic": "Taptic Driver",
+    "symptoms": "No vibration on boot, haptic failure, otherwise partial normal startup",
+    "repair_steps": [
+      "Check boost rail and Taptic connector",
+      "Inspect for shorted haptic motor",
+      "Measure driver output in diode mode",
+      "Replace failed driver IC or shorted cap",
+      "Retest system haptics"
+    ]
+  },
+  {
+    "id": "IPH057",
+    "stage": 15,
+    "title": "Late Sensor Bus Fault",
+    "rail": "I2C2_SENSOR_BUS",
+    "voltage": "1.8V",
+    "diode_ref": 0.669,
+    "target_ic": "Sensor Bus",
+    "symptoms": "UI loads slowly, settings hangs, sensor-related panic after home screen",
+    "repair_steps": [
+      "Check I2C bus for line held low",
+      "Isolate attached sensor clients",
+      "Replace shorted device-side part",
+      "Repair pull-up or corroded filter",
+      "Retest full boot and sensor access"
+    ]
+  },
+  {
+    "id": "IPH058",
+    "stage": 15,
+    "title": "AOP Resume Request Fault",
+    "rail": "AOP_RESUME_REQ",
+    "voltage": "1.8V",
+    "diode_ref": 0.618,
+    "target_ic": "Always-On Processor Resume Logic",
+    "symptoms": "Delayed wake, freeze after lock-unlock cycle, unstable resume behavior",
+    "repair_steps": [
+      "Measure resume request line in diode mode",
+      "Inspect resistor ladder and always-on rail source",
+      "Repair leakage or open on the signal path",
+      "Validate AOP_NMI_POWER first",
+      "Retest repeated sleep-wake cycles"
+    ]
+  },
+  {
+    "id": "IPH059",
+    "stage": 16,
+    "title": "Final Peripheral Rail Sag",
+    "rail": "PP3V3_SDR",
+    "voltage": "3.3V",
+    "diode_ref": 0.541,
+    "target_ic": "Late Stage Peripheral Supply",
+    "symptoms": "Reboots under load, unstable after unlock or app launch",
+    "repair_steps": [
+      "Stress test while monitoring PP3V3_SDR",
+      "Inspect for regulator droop or weak cap",
+      "Compare diode mode with donor board",
+      "Replace unstable regulator or capacitor",
+      "Retest with load and charging"
+    ]
+  },
+  {
+    "id": "IPH060",
+    "stage": 16,
+    "title": "SYS_ALIVE Return Fault",
+    "rail": "SYS_ALIVE_RET",
+    "voltage": "1.8V",
+    "diode_ref": 0.596,
+    "target_ic": "AP PMIC Return Handshake",
+    "symptoms": "Late boot panic or reboot, often after thermal or charging events",
+    "repair_steps": [
+      "Check SYS_ALIVE and return path passives together",
+      "Measure diode values on both handshake lines",
+      "Inspect PMIC-side resistor network",
+      "Repair signal integrity issue before AP rework",
+      "Run repeated cold boot and charger-attached tests"
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: diagnosticsos-nexus-host
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:host
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DEVICE_API_HOST
+        value: 0.0.0.0
+      - key: DEVICE_API_PORT
+        value: 10000

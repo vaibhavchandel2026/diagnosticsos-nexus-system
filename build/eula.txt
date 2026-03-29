@@ -1,0 +1,48 @@
+END USER LICENSE AGREEMENT (EULA)
+
+Product: iPhone Diagnostic Suite
+Developer: Vidarbha Phonefix
+Support No.: 9145259145
+Version: 1.0.0
+
+PLEASE READ THIS END USER LICENSE AGREEMENT CAREFULLY BEFORE USING THE SOFTWARE. BY INSTALLING, COPYING, OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT INSTALL OR USE THE SOFTWARE.
+
+1. LICENSE GRANT
+Vidarbha Phonefix grants you a non-exclusive, non-transferable, revocable license to install and use iPhone Diagnostic Suite on Windows systems for device diagnostics, repair workflow support, and related service operations.
+
+2. PERMITTED USE
+You may use the software for lawful diagnostic, service, repair, and technical evaluation purposes. You may create internal reports, store diagnostic artifacts, and use the software within your business or personal repair workflow.
+
+3. RESTRICTIONS
+You may not:
+- resell, sublicense, rent, lease, or redistribute the software without written permission
+- remove branding, authorship, or legal notices
+- use the software for unlawful surveillance, unauthorized access, or policy-violating device activity
+- represent diagnostic inferences as guaranteed hardware conclusions without independent verification
+
+4. DIAGNOSTIC LIMITATIONS
+The software may present inferred repair guidance based on panic logs, device metadata, and rule-based analysis. Such results are advisory only and do not guarantee root-cause accuracy. Final repair decisions remain the responsibility of the technician or user.
+
+5. THIRD-PARTY TOOLS AND DEPENDENCIES
+The software may rely on third-party components such as Electron, Node.js, Python, Android platform-tools, Apple device services, and pymobiledevice3. Availability and behavior of those tools may affect software functionality. Their respective licenses remain with their owners.
+
+6. DATA AND LOGS
+The software may store runtime data, logs, panic files, cache files, and related artifacts on the local machine. You are responsible for reviewing and protecting any device-related data stored through the software.
+
+7. NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ACCURACY OF DIAGNOSTIC RESULTS.
+
+8. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, VIDARBHA PHONEFIX SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, INCLUDING DEVICE DAMAGE, DATA LOSS, BUSINESS INTERRUPTION, OR LOST PROFITS ARISING FROM THE USE OF THE SOFTWARE.
+
+9. TERMINATION
+This license terminates automatically if you fail to comply with this agreement. Upon termination, you must stop using the software and remove installed copies under your control.
+
+10. GOVERNING TERMS
+This agreement is governed by applicable local law where enforcement is sought, subject to mandatory consumer protections where applicable.
+
+11. CONTACT
+Vidarbha Phonefix
+Support No.: 9145259145
+
+By clicking Accept, installing, or using the software, you acknowledge that you have read and understood this agreement and agree to its terms.
