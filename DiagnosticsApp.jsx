@@ -106,6 +106,7 @@ export default function DiagnosticsApp() {
   const [aiError, setAiError] = useState("");
   const [aiResult, setAiResult] = useState(null);
   const [backendHealth, setBackendHealth] = useState({ status: "checking", message: "Checking backend..." });
+  const [agentHealthInfo, setAgentHealthInfo] = useState({ supportsHardware: true, hostedDirectoryMode: false, platform: "" });
   const [lastActionMessage, setLastActionMessage] = useState("");
   const [agentBaseUrl, setAgentBaseUrl] = useState(() => {
     if (typeof window === "undefined") return "";
@@ -126,6 +127,11 @@ export default function DiagnosticsApp() {
   const [registeredAgents, setRegisteredAgents] = useState([]);
   const [directoryBusy, setDirectoryBusy] = useState(false);
   const [directoryError, setDirectoryError] = useState("");
+
+  const browserOrigin = typeof window !== "undefined" ? normalizeAgentBaseUrl(window.location.origin) : "";
+  const agentIsThisHost = normalizeAgentBaseUrl(agentBaseUrl) === browserOrigin;
+  const hostedDirectoryMode = backendHealth.status === "ok" && agentIsThisHost && agentHealthInfo.hostedDirectoryMode;
+  const hardwareActionsAvailable = backendHealth.status === "ok" && agentHealthInfo.supportsHardware;
 
   const selectedRepair = REPAIR_KNOWLEDGE_RECORDS.find((record) => record.fault_code === selectedRepairId) || REPAIR_KNOWLEDGE_RECORDS[0];
   const repairBrandCount = new Set(REPAIR_KNOWLEDGE_RECORDS.map((record) => String(record.device).split("|")[0].trim())).size;
@@ -208,7 +214,12 @@ export default function DiagnosticsApp() {
       setConnectedDevices(payload.devices || []);
       setAvailableTools(payload.tools || {});
       setLatestPanicPull(null);
-      setBackendHealth({ status: "ok", message: "Backend reachable" });
+      setBackendHealth({
+        status: "ok",
+        message: payload.error || (hostedDirectoryMode
+          ? "Hosted directory connected. Select a registered Windows agent to run hardware functions."
+          : "Backend reachable"),
+      });
       if (payload.error) {
         setScanError(payload.error);
         appendLog("err", `Scan warning: ${payload.error}`);
@@ -306,19 +317,33 @@ export default function DiagnosticsApp() {
   useEffect(() => {
     let cancelled = false;
     const boot = async () => {
+      let payload = null;
       try {
-        const payload = await requestJson(agentBaseUrl, "/api/health");
+        payload = await requestJson(agentBaseUrl, "/api/health");
         if (cancelled) return;
         setAvailableTools(payload.tools || {});
-        setBackendHealth({ status: "ok", message: `Agent online at ${normalizeAgentBaseUrl(agentBaseUrl)}` });
-        appendLog("info", "Backend health check passed.");
+        setAgentHealthInfo({
+          supportsHardware: Boolean(payload.supportsHardware),
+          hostedDirectoryMode: Boolean(payload.hostedDirectoryMode),
+          platform: payload.platform || "",
+        });
+        setBackendHealth({
+          status: "ok",
+          message: payload.hostedDirectoryMode
+            ? `Hosted directory online at ${normalizeAgentBaseUrl(agentBaseUrl)}. Connect a Windows agent for live hardware functions.`
+            : `Agent online at ${normalizeAgentBaseUrl(agentBaseUrl)}`,
+        });
+        appendLog("info", payload.hostedDirectoryMode ? "Hosted directory detected." : "Backend health check passed.");
       } catch (error) {
         if (cancelled) return;
+        setAgentHealthInfo({ supportsHardware: false, hostedDirectoryMode: false, platform: "" });
         setBackendHealth({ status: "error", message: error instanceof Error ? error.message : "Health check failed" });
         appendLog("err", error instanceof Error ? error.message : "Health check failed");
       }
       if (!cancelled) {
-        scanDevices();
+        if (!payload?.hostedDirectoryMode) {
+          scanDevices();
+        }
         fetchRegisteredAgents();
       }
     };
@@ -396,6 +421,11 @@ export default function DiagnosticsApp() {
                 </div>
                 <div className="card-body" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
                   <div>{backendHealth.message}</div>
+                  {hostedDirectoryMode ? (
+                    <div style={{ marginTop: "8px", color: "var(--text-muted)" }}>
+                      This public Render host works as an agent directory and web UI. Live USB scan, Apple pairing, ADB, and panic pull only work after you connect a Windows repair agent.
+                    </div>
+                  ) : null}
                   <div style={{ marginTop: "12px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
                     <input
                       className="repair-search"
@@ -515,19 +545,19 @@ export default function DiagnosticsApp() {
             <div>
               <div className="section-heading">Device Detection</div>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
-                <button className="btn btn-primary" onClick={scanDevices} disabled={scanBusy}>
+                <button className="btn btn-primary" onClick={scanDevices} disabled={scanBusy || !hardwareActionsAvailable}>
                   {scanBusy ? "Scanning..." : "Scan USB Devices"}
                 </button>
-                <button className="btn btn-ghost" onClick={() => runBackendAction("restart-adb")} disabled={actionBusy === "restart-adb"}>
+                <button className="btn btn-ghost" onClick={() => runBackendAction("restart-adb")} disabled={actionBusy === "restart-adb" || !hardwareActionsAvailable}>
                   {actionBusy === "restart-adb" ? "Restarting..." : "Restart ADB"}
                 </button>
-                <button className="btn btn-ghost" onClick={() => runBackendAction("pair-apple")} disabled={actionBusy === "pair-apple"}>
+                <button className="btn btn-ghost" onClick={() => runBackendAction("pair-apple")} disabled={actionBusy === "pair-apple" || !hardwareActionsAvailable}>
                   {actionBusy === "pair-apple" ? "Pairing..." : "Pair Apple"}
                 </button>
                 <button
                   className="btn btn-ghost"
                   onClick={() => runBackendAction("pull-latest-panic", { udid: selectedDevice?.udid || selectedDevice?.serial || "" })}
-                  disabled={!selectedDevice || actionBusy === "pull-latest-panic"}
+                  disabled={!selectedDevice || actionBusy === "pull-latest-panic" || !hardwareActionsAvailable}
                 >
                   {actionBusy === "pull-latest-panic" ? "Pulling..." : "Pull Latest Panic"}
                 </button>
@@ -537,7 +567,7 @@ export default function DiagnosticsApp() {
                   <div className="card-header"><span className="card-title">Connected Devices</span></div>
                   <div className="card-body">
                     {connectedDevices.length === 0 ? (
-                      <div style={{ color: "var(--text-muted)" }}>No devices detected yet. Run a live scan from this browser session.</div>
+                      <div style={{ color: "var(--text-muted)" }}>{hostedDirectoryMode ? "No Windows agent is connected yet. Use the dashboard above to select a registered agent, then run a live scan." : "No devices detected yet. Run a live scan from this browser session."}</div>
                     ) : connectedDevices.map((device) => (
                       <button
                         key={device.id}

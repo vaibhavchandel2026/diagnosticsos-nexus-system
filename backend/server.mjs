@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { URL, fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs";
+import os from "node:os";
 
 const PORT = Number(process.env.DEVICE_API_PORT || process.env.PORT || 8787);
 const HOST = process.env.DEVICE_API_HOST || "127.0.0.1";
@@ -32,6 +33,7 @@ const AGENT_PUBLIC_URL = String(process.env.DEVICE_AGENT_PUBLIC_URL || "").trim(
 const AGENT_DIRECTORY_HEARTBEAT_MS = Number(process.env.DEVICE_DIRECTORY_HEARTBEAT_MS || 30000);
 const AGENT_DIRECTORY_TTL_MS = Number(process.env.DEVICE_DIRECTORY_TTL_MS || 90000);
 const agentDirectory = new Map();
+const IS_WINDOWS_HOST = process.platform === "win32";
 
 function loadPersistentPanicCache() {
   try {
@@ -875,6 +877,13 @@ async function getTools() {
 
 async function scanDevices() {
   const tools = await getTools();
+  if (!IS_WINDOWS_HOST) {
+    return {
+      devices: [],
+      tools,
+      error: "Hardware scanning is only available on a Windows agent. Connect a registered agent from the dashboard.",
+    };
+  }
   const devices = [];
   const errors = [];
 
@@ -927,6 +936,9 @@ async function scanDevices() {
 
 async function runAction(action, options = {}) {
   const tools = await getTools();
+  if (!IS_WINDOWS_HOST) {
+    throw new Error("Hardware actions are only available on a Windows agent. Connect a registered agent from the dashboard.");
+  }
   if (action === "restart-adb") {
     if (!tools.adb) throw new Error("adb is not available");
     await runAdb(["kill-server"], { timeoutMs: 20000 });
@@ -1032,7 +1044,19 @@ const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, `http://127.0.0.1:${PORT}`);
 
   try {
-if (request.method === "GET" && url.pathname === "/api/health") return writeJson(response, 200, { ok: true, tools: await getTools(), host: HOST, port: PORT });
+if (request.method === "GET" && url.pathname === "/api/health") {
+      const tools = await getTools();
+      return writeJson(response, 200, {
+        ok: true,
+        tools,
+        host: HOST,
+        port: PORT,
+        platform: process.platform,
+        hostname: os.hostname(),
+        supportsHardware: IS_WINDOWS_HOST,
+        hostedDirectoryMode: !IS_WINDOWS_HOST,
+      });
+    }
     if (request.method === "GET" && url.pathname === "/api/agents") {
       return writeJson(response, 200, {
         ok: true,
